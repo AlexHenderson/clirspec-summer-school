@@ -20,8 +20,10 @@ function vn_data = vectornorm(data)
 %   If you use this file in your work, please acknowledge the author(s) in
 %   your publications. 
 %
-%   version 1.0 June 2015
+%   version 2.0 October 2015
 
+%   version 2.0 October 2015 Alex Henderson
+%   Corrected for sparseness of data
 %   version 1.0 June 2015 Alex Henderson
 %   initial release
 
@@ -31,6 +33,11 @@ function vn_data = vectornorm(data)
 %      This is the 'vector length'.
 %   3. Divides each of the original data variables by the vector length.
 %   4. Outputs the result to a MATLAB variable
+
+sparseinput = false;
+if (issparse(data))
+    sparseinput = true;
+end
 
 squares = data .^ 2;                % square of each variable ([n,m])
 sum_of_squares = sum(squares, 2);   % sum of the squares along the rows ([n,1])
@@ -45,4 +52,11 @@ multiplierdiag = spdiags(multiplier,0,length(multiplier),length(multiplier));
 
 data = multiplierdiag * data; % divide the data by the vector length ([n,m])
 
+if (sparseinput)
+    data = sparse(data);
+else
+    data = full(data);
+end
+
 vn_data = data;
+    

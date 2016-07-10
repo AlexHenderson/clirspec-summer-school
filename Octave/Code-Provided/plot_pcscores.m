@@ -1,9 +1,11 @@
-function [figure_handle] = plot_pcscores(pcscores,pc_x,pc_y,pcexplained,groupmembership)
+function [figure_handle] = plot_pcscores(pcscores,pc_x,pc_y,pcexplained,groupmembership,fontsize,fontweight)
 
 % PLOT_PCSCORES Plots principal component scores of your choice
 % usage:
 %     plot_pcscores(pcscores,pc_x,pc_y,pcexplained);
 %     plot_pcscores(pcscores,pc_x,pc_y,pcexplained,groupmembership);
+%     plot_pcscores(pcscores,pc_x,pc_y,pcexplained,groupmembership,fontsize);
+%     plot_pcscores(pcscores,pc_x,pc_y,pcexplained,groupmembership,fontsize,fontweight);
 %
 % where:
 %   pcscores - the scores matrix
@@ -11,7 +13,13 @@ function [figure_handle] = plot_pcscores(pcscores,pc_x,pc_y,pcexplained,groupmem
 %   pc_y - the number of the principal component to plot on the y axis
 %   pcexplained - vector of percentage explained variance
 %   groupmembership - (optional) vector of labels, one per row of data
+%   fontsize - (optional) set to change the font size
+%   fontweight - (optional) set to change the font weight ('normal'
+%   (default) | 'bold')
 %   figure_handle = the figure identifier used for saving figure to disc
+%
+%   Use [] as a placeholder for default values, if later values are
+%   specified
 %
 %   If groupmembership is provided, the scores will be plotted in colours
 %   relating to their group
@@ -24,8 +32,10 @@ function [figure_handle] = plot_pcscores(pcscores,pc_x,pc_y,pcexplained,groupmem
 %   If you use this file in your work, please acknowledge the author(s) in
 %   your publications. 
 %
-%   version 1.0 June 2015
+%   version 1.1 April 2016
 
+%   version 1.1 April 2016 Alex Henderson
+%   Added fontsize and fontweight options
 %   version 1.0 June 2015 Alex Henderson
 %   initial release
 
@@ -36,11 +46,30 @@ decplaces = 3;
 window_title = ['Scores on principal components ', num2str(pc_x), ' and ', num2str(pc_y)];
 figure_handle = figure('Name',window_title,'NumberTitle','off');
 
-if (exist('groupmembership','var'))
+if (exist('groupmembership','var') && ~isempty(groupmembership))
     gscatter(pcscores(:,pc_x), pcscores(:,pc_y), groupmembership, colours, 'o');
 else
-    scatter(pcscores(:,pc_x), pcscores(:,pc_y), 'b');
+    scatter(pcscores(:,pc_x), pcscores(:,pc_y), 'o');
 end    
+
+if (exist('fontsize','var') && ~isempty(fontsize))
+    if (ismatlab())
+      set(gca,'FontSize',fontsize)
+    else
+        % Not sure if Octave does this, so assume 'yes'
+      set(gca,'FontSize',fontsize)
+    end      
+end    
+
+if (exist('fontweight','var') && ~isempty(fontweight))
+    if (ismatlab())
+      set(gca,'FontWeight',fontweight)
+    else
+        % Not sure if Octave does this, so assume 'yes'
+      set(gca,'FontWeight',fontweight)
+    end      
+end    
+
 
 xlabel(['score on PC ', num2str(pc_x), ' (', num2str(pcexplained(pc_x),decplaces), '%)']);
 ylabel(['score on PC ', num2str(pc_y), ' (', num2str(pcexplained(pc_y),decplaces), '%)']);
