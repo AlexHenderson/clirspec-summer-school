@@ -2,7 +2,7 @@
 % Multivariate Analysis Workshop
 
 % Load data
-data = load('C:\CLIRSPEC\Summer-School\Octave\Data\utidata.txt');
+data = load('C:\CLIRSPEC\clirspec-summer-school\Octave\Data\utidata.txt');
 data = fliplr(data);
 wavenumbers = linspace(600, 4000, size(data, 2));
 groupmembership = generate_groups('E. coli',20,'P. mirabilis',20,'Klebsiella spp.',20,'P. aeruginosa',20,'Enterococcus spp.',20,'E. coli',48,'P. mirabilis',20,'Klebsiella spp.',20,'P. aeruginosa',20,'Enterococcus spp.',28);
