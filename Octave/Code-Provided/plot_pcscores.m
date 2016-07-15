@@ -48,8 +48,10 @@ figure_handle = figure('Name',window_title,'NumberTitle','off');
 
 if (exist('groupmembership','var') && ~isempty(groupmembership))
     gscatter(pcscores(:,pc_x), pcscores(:,pc_y), groupmembership, colours, 'o');
+%    gscatter(pcscores(:,pc_x), pcscores(:,pc_y), groupmembership, colours);
 else
-    scatter(pcscores(:,pc_x), pcscores(:,pc_y), 'o');
+%    scatter(pcscores(:,pc_x), pcscores(:,pc_y), 'o');
+    scatter(pcscores(:,pc_x), pcscores(:,pc_y));
 end    
 
 if (exist('fontsize','var') && ~isempty(fontsize))
